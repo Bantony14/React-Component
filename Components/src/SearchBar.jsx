@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 
-function App() {
+function SearchBar() {
   const [query, setQuery] = useState("");
   const [filterUserByName, setFilterByName] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -76,4 +76,4 @@ function App() {
   );
 }
 
-export default App;
+export default SearchBar;
