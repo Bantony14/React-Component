@@ -7,9 +7,10 @@ import Pagination from "./Pagination";
 import SearchBar from "./searchBar";
 import Tabs from "./Tabs";
 import Toast from "./Toster";
+import OtpFiled from "./OtpFiled.tsx";
 
 function App() {
-  return <ImageCarousel />;
+  return <OtpFiled />;
 }
 
 export default App;
