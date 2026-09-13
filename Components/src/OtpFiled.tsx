@@ -14,13 +14,11 @@ function OtpFiled() {
     if (value === "") {
       if (index > 0) {
         const input = divRef.current?.children[index - 1] as HTMLInputElement;
-
         input?.focus();
       }
     } else {
       if (index < otp.length - 1) {
         const input = divRef.current?.children[index + 1] as HTMLInputElement;
-
         input?.focus();
       }
     }

@@ -38,6 +38,7 @@ function ImageCarousel() {
           >
             <ChevronLeft size={20} />{" "}
           </button>
+        
           <button
             className="absolute right-2 top-1/2 -translate-y-1/2 bg-amber-300 rounded-2xl"
             onClick={() => {

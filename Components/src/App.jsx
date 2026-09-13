@@ -8,9 +8,10 @@ import SearchBar from "./searchBar";
 import Tabs from "./Tabs";
 import Toast from "./Toster";
 import OtpFiled from "./OtpFiled.tsx";
+import Form from "./MutliForm.jsx";
 
 function App() {
-  return <OtpFiled />;
+  return <Form />;
 }
 
 export default App;
