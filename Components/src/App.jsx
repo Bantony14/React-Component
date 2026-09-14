@@ -9,9 +9,10 @@ import Tabs from "./Tabs";
 import Toast from "./Toster";
 import OtpFiled from "./OtpFiled.tsx";
 import Form from "./MutliForm.jsx";
+import FileUpload from "./FileUploadAndPreview.tsx";
 
 function App() {
-  return <Form />;
+  return <FileUpload />;
 }
 
 export default App;
