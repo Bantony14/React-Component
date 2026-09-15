@@ -10,9 +10,10 @@ import Toast from "./Toster";
 import OtpFiled from "./OtpFiled.tsx";
 import Form from "./MutliForm.jsx";
 import FileUpload from "./FileUploadAndPreview.tsx";
+import DataTables from "./DataTables.tsx";
 
 function App() {
-  return <FileUpload />;
+  return <DataTables />;
 }
 
 export default App;
