@@ -1,3 +1,4 @@
+import { UserSearch } from "lucide-react";
 import { useEffect, useState } from "react";
 
 function DataTables() {
@@ -20,7 +21,7 @@ function DataTables() {
       age: 24,
       city: "Surat",
       role: "Frontend Developer",
-      salary: 35000,
+      salary: 55000,
       status: "Active",
     },
     {
@@ -140,7 +141,7 @@ function DataTables() {
       age: 24,
       city: "Surat",
       role: "Frontend Developer",
-      salary: 35000,
+      salary: 45000,
       status: "Active",
     },
     {
@@ -1577,18 +1578,42 @@ function DataTables() {
 
   const [showData, setShowData] = useState<User[]>([]);
 
-  const pages = Array.from(
-    { length: Math.ceil(usersData.length / 10) },
-    (_, index) => 1 + index,
+  const [pages, setPages] = useState(
+    Array.from(
+      { length: Math.ceil(usersData.length / 10) },
+      (_, index) => 1 + index,
+    ),
   );
 
   const [currentPage, setCurrentPage] = useState(1);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const [sortValue, setSortValue] = useState<number | null>(null);
+  const [showSort, setShowSort] = useState(false);
+
+  const [salarySort, setSalarySort] = useState(false);
+
+  const [searchData, setSearchData] = useState<User[]>([]);
+
+  const [sortData, setSortData] = useState<User[]>([]);
 
   useEffect(() => {
+    if (sortData) {
+      const startIndex = (currentPage - 1) * 10;
+      const endIndex = 10 * currentPage;
+      const filterData: User[] = sortData.slice(startIndex, endIndex);
+
+      setShowData(filterData);
+      return;
+    }
+    if (searchQuery) {
+      const startIndex = (currentPage - 1) * 10;
+      const endIndex = 10 * currentPage;
+      const filterData: User[] = searchData.slice(startIndex, endIndex);
+
+      setShowData(filterData);
+      return;
+    }
     const startIndex = (currentPage - 1) * 10;
     const endIndex = 10 * currentPage;
     const filterData: User[] = usersData.slice(startIndex, endIndex);
@@ -1620,26 +1645,32 @@ function DataTables() {
         .toLowerCase()
         .includes(searchQuery.trim().toLowerCase()),
     );
-
-    setShowData(filterDataBySearch);
+    setPages(
+      Array.from(
+        { length: Math.ceil(filterDataBySearch.length / 10) },
+        (_, index) => 1 + index,
+      ),
+    );
+    setSearchData(filterDataBySearch);
+    setShowData(filterDataBySearch.slice(0, 10));
   }, [searchQuery]);
 
-  useEffect(() => {
-    if (!sortValue) {
-      const startIndex = (currentPage - 1) * 10;
-      const endIndex = 10 * currentPage;
-      const filterData: User[] = usersData.slice(startIndex, endIndex);
+  const handleSalarySort = (order: "asc" | "desc") => {
+    if (searchQuery) {
+      const sortedData = [...searchData].sort((a, b) =>
+        order === "asc" ? a.salary - b.salary : b.salary - a.salary,
+      );
+      setSortData(sortedData);
+      setShowData(sortedData.slice(0, 10));
 
-      setShowData(filterData);
       return;
     }
-
-    const filterDataBySearch = usersData.filter(
-      (value) => value.salary >= sortValue,
+    const sortedData = [...usersData].sort((a, b) =>
+      order === "asc" ? a.salary - b.salary : b.salary - a.salary,
     );
-
-    setShowData(filterDataBySearch);
-  }, [sortValue]);
+    setSortData(sortedData);
+    setShowData(sortedData.slice(0, 10));
+  };
 
   return (
     <>
@@ -1678,11 +1709,32 @@ function DataTables() {
         }
 
         <div>
-          <select onChange={(e) => setSortValue(e.target.value)}>
-            <option value={""}>select None</option>
-            <option value={40000}>Salary Above 40000</option>
-            <option value={50000}>Salary Above 50000</option>
-          </select>
+          <button onClick={() => setShowSort((prev) => !prev)}>Sort by</button>
+          {showSort && (
+            <div>
+              <button onClick={() => setSalarySort((prev) => !prev)}>
+                Salary
+              </button>
+              {salarySort && (
+                <>
+                  <button
+                    onClick={() => {
+                      handleSalarySort("asc");
+                    }}
+                  >
+                    Salary low to high
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleSalarySort("desc");
+                    }}
+                  >
+                    Salary high to low
+                  </button>
+                </>
+              )}
+            </div>
+          )}
         </div>
         <div className="flex gap-2 flex-wrap">
           {pages.map((value) => (
