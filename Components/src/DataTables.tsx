@@ -1,5 +1,6 @@
 import { UserSearch } from "lucide-react";
 import { useEffect, useState } from "react";
+import ThemeToggle from "./ToggleTheme.js";
 
 function DataTables() {
   type User = {
@@ -1586,19 +1587,14 @@ function DataTables() {
   );
 
   const [currentPage, setCurrentPage] = useState(1);
-
   const [searchQuery, setSearchQuery] = useState<string>("");
-
   const [showSort, setShowSort] = useState(false);
-
   const [salarySort, setSalarySort] = useState(false);
-
   const [searchData, setSearchData] = useState<User[]>([]);
-
   const [sortData, setSortData] = useState<User[]>([]);
 
   useEffect(() => {
-    if (sortData) {
+    if (sortData.length > 0) {
       const startIndex = (currentPage - 1) * 10;
       const endIndex = 10 * currentPage;
       const filterData: User[] = sortData.slice(startIndex, endIndex);
@@ -1606,6 +1602,7 @@ function DataTables() {
       setShowData(filterData);
       return;
     }
+
     if (searchQuery) {
       const startIndex = (currentPage - 1) * 10;
       const endIndex = 10 * currentPage;
@@ -1614,6 +1611,7 @@ function DataTables() {
       setShowData(filterData);
       return;
     }
+
     const startIndex = (currentPage - 1) * 10;
     const endIndex = 10 * currentPage;
     const filterData: User[] = usersData.slice(startIndex, endIndex);
@@ -1630,6 +1628,7 @@ function DataTables() {
       setShowData(filterData);
       return;
     }
+
     const filterDataBySearch = usersData.filter((value) =>
       [
         value.age,
@@ -1645,12 +1644,14 @@ function DataTables() {
         .toLowerCase()
         .includes(searchQuery.trim().toLowerCase()),
     );
+
     setPages(
       Array.from(
         { length: Math.ceil(filterDataBySearch.length / 10) },
         (_, index) => 1 + index,
       ),
     );
+
     setSearchData(filterDataBySearch);
     setShowData(filterDataBySearch.slice(0, 10));
   }, [searchQuery]);
@@ -1660,91 +1661,194 @@ function DataTables() {
       const sortedData = [...searchData].sort((a, b) =>
         order === "asc" ? a.salary - b.salary : b.salary - a.salary,
       );
+
       setSortData(sortedData);
       setShowData(sortedData.slice(0, 10));
 
       return;
     }
+
     const sortedData = [...usersData].sort((a, b) =>
       order === "asc" ? a.salary - b.salary : b.salary - a.salary,
     );
+
     setSortData(sortedData);
     setShowData(sortedData.slice(0, 10));
   };
 
   return (
     <>
-      <div>
-        <input
-          type="text"
-          value={searchQuery}
-          className="w-100 h-10 rounded-2xl border-amber-500 border-4 mt-1"
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        {
-          <table>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Age</th>
-              <th>City</th>
-              <th>Role</th>
-              <th>Salary</th>
-              <th>Status</th>
-            </tr>
+      <div className="min-h-screen bg-white text-gray-900 transition-colors duration-300 dark:bg-gray-950 dark:text-white">
+        {/* Theme Toggle */}
+        <div className="p-4">
+          <ThemeToggle />
 
-            {showData.map((value, index) => (
-              <tr key={`${value.id}-${index}`}>
-                <td>{value.id}</td>
-                <td>{value.name}</td>
-                <td>{value.email}</td>
-                <td>{value.age}</td>
-                <td>{value.city}</td>
-                <td>{value.role}</td>
-                <td>{value.salary}</td>
-                <td>{value.status}</td>
-              </tr>
-            ))}
-          </table>
-        }
+          {/* Search */}
+          <input
+            type="text"
+            value={searchQuery}
+            placeholder="Search..."
+            className="
+              mt-3 h-10 w-100 rounded-2xl border-4 border-amber-500
+              bg-white px-4 text-gray-900 outline-none
+              placeholder:text-gray-400
+              focus:border-amber-600
+              dark:border-cyan-500
+              dark:bg-gray-800
+              dark:text-white
+              dark:placeholder:text-gray-400
+              dark:focus:border-cyan-400
+            "
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
 
-        <div>
-          <button onClick={() => setShowSort((prev) => !prev)}>Sort by</button>
-          {showSort && (
-            <div>
-              <button onClick={() => setSalarySort((prev) => !prev)}>
-                Salary
-              </button>
-              {salarySort && (
-                <>
-                  <button
-                    onClick={() => {
-                      handleSalarySort("asc");
-                    }}
+          {/* Table */}
+          <div className="mt-5 overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gray-100 text-left dark:bg-gray-800">
+                  <th className="border-b border-gray-200 p-3 dark:border-gray-700">
+                    Sr.No
+                  </th>
+                  <th className="border-b border-gray-200 p-3 dark:border-gray-700">
+                    Name
+                  </th>
+                  <th className="border-b border-gray-200 p-3 dark:border-gray-700">
+                    Email
+                  </th>
+                  <th className="border-b border-gray-200 p-3 dark:border-gray-700">
+                    Age
+                  </th>
+                  <th className="border-b border-gray-200 p-3 dark:border-gray-700">
+                    City
+                  </th>
+                  <th className="border-b border-gray-200 p-3 dark:border-gray-700">
+                    Role
+                  </th>
+                  <th className="border-b border-gray-200 p-3 dark:border-gray-700">
+                    Salary
+                  </th>
+                  <th className="border-b border-gray-200 p-3 dark:border-gray-700">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {showData.map((value, index) => (
+                  <tr
+                    key={`${value.id}-${index}`}
+                    className="
+                      border-b border-gray-200
+                      hover:bg-gray-50
+                      dark:border-gray-700
+                      dark:hover:bg-gray-800
+                    "
                   >
-                    Salary low to high
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleSalarySort("desc");
-                    }}
-                  >
-                    Salary high to low
-                  </button>
-                </>
-              )}
-            </div>
-          )}
-        </div>
-        <div className="flex gap-2 flex-wrap">
-          {pages.map((value) => (
+                    <td className="p-3">{value.id}</td>
+                    <td className="p-3">{value.name}</td>
+                    <td className="p-3">{value.email}</td>
+                    <td className="p-3">{value.age}</td>
+                    <td className="p-3">{value.city}</td>
+                    <td className="p-3">{value.role}</td>
+                    <td className="p-3">{value.salary}</td>
+                    <td className="p-3">{value.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Sort */}
+          <div className="mt-5">
             <button
-              className="w-5 h-6 bg-amber-200 text-center rounded"
-              onClick={() => setCurrentPage(value)}
+              className="
+                rounded-lg bg-gray-200 px-4 py-2
+                text-gray-900
+                hover:bg-gray-300
+                dark:bg-gray-800
+                dark:text-white
+                dark:hover:bg-gray-700
+              "
+              onClick={() => setShowSort((prev) => !prev)}
             >
-              {value}
+              Sort by
             </button>
-          ))}
+
+            {showSort && (
+              <div className="mt-2 rounded-lg bg-gray-100 p-3 dark:bg-gray-800">
+                <button
+                  className="
+                    rounded-lg bg-gray-200 px-4 py-2
+                    text-gray-900
+                    hover:bg-gray-300
+                    dark:bg-gray-700
+                    dark:text-white
+                    dark:hover:bg-gray-600
+                  "
+                  onClick={() => setSalarySort((prev) => !prev)}
+                >
+                  Salary
+                </button>
+
+                {salarySort && (
+                  <div className="mt-2 flex gap-2">
+                    <button
+                      className="
+                        rounded-lg bg-amber-200 px-3 py-2
+                        text-gray-900
+                        hover:bg-amber-300
+                        dark:bg-cyan-700
+                        dark:text-white
+                        dark:hover:bg-cyan-600
+                      "
+                      onClick={() => {
+                        handleSalarySort("asc");
+                      }}
+                    >
+                      Salary low to high
+                    </button>
+
+                    <button
+                      className="
+                        rounded-lg bg-amber-200 px-3 py-2
+                        text-gray-900
+                        hover:bg-amber-300
+                        dark:bg-cyan-700
+                        dark:text-white
+                        dark:hover:bg-cyan-600
+                      "
+                      onClick={() => {
+                        handleSalarySort("desc");
+                      }}
+                    >
+                      Salary high to low
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Pagination */}
+          <div className="mt-5 flex flex-wrap gap-2">
+            {pages.map((value) => (
+              <button
+                key={value}
+                className="
+                  h-8 w-8 rounded
+                  bg-amber-200 text-center text-gray-900
+                  hover:bg-amber-300
+                  dark:bg-gray-700
+                  dark:text-white
+                  dark:hover:bg-gray-600
+                "
+                onClick={() => setCurrentPage(value)}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </>

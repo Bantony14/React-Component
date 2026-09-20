@@ -1,31 +1,33 @@
-    @import "tailwindcss";
+@import "tailwindcss";
 
-    @keyframes slide-left {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
+@custom-variant dark (&:where(.dark, .dark *));
 
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    }
+@keyframes slide-left {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
 
-    @keyframes slide-right {
-    from {
-        transform: translateX(-100%);
-    }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
 
-    to {
-        transform: translateX(0);
-    }
-    }
+@keyframes slide-right {
+  from {
+    transform: translateX(-100%);
+  }
 
-    .animate-slide-left {
-    animation: slide-left 500ms ease;
-    }
+  to {
+    transform: translateX(0);
+  }
+}
 
-    .animate-slide-right {
-    animation: slide-right 500ms ease;
-    }
+.animate-slide-left {
+  animation: slide-left 500ms ease;
+}
+
+.animate-slide-right {
+  animation: slide-right 500ms ease;
+}
