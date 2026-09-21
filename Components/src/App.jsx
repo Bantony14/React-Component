@@ -11,9 +11,10 @@ import OtpFiled from "./OtpFiled.tsx";
 import Form from "./MutliForm.jsx";
 import FileUpload from "./FileUploadAndPreview.tsx";
 import DataTables from "./DataTables.tsx";
+import StarRating from "./StarRating.tsx";
 
 function App() {
-  return <DataTables />;
+  return <StarRating />;
 }
 
 export default App;
