@@ -12,9 +12,10 @@ import Form from "./MutliForm.jsx";
 import FileUpload from "./FileUploadAndPreview.tsx";
 import DataTables from "./DataTables.tsx";
 import StarRating from "./StarRating.tsx";
+import { DragAndDrop, DragState } from "./DragAndDrop.tsx";
 
 function App() {
-  return <StarRating />;
+  return <DragState />;
 }
 
 export default App;
