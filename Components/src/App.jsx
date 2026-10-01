@@ -13,9 +13,10 @@ import FileUpload from "./FileUploadAndPreview.tsx";
 import DataTables from "./DataTables.tsx";
 import StarRating from "./StarRating.tsx";
 import { DragAndDrop, DragState } from "./DragAndDrop.tsx";
+import NestedComment from "./NestedComments.tsx";
 
 function App() {
-  return <DragState />;
+  return <NestedComment />;
 }
 
 export default App;
