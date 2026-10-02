@@ -14,9 +14,10 @@ import DataTables from "./DataTables.tsx";
 import StarRating from "./StarRating.tsx";
 import { DragAndDrop, DragState } from "./DragAndDrop.tsx";
 import NestedComment from "./NestedComments.tsx";
+import FolderExplore from "./FolderExplore.tsx";
 
 function App() {
-  return <NestedComment />;
+  return <FolderExplore />;
 }
 
 export default App;
