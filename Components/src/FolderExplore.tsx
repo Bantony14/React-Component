@@ -1,7 +1,14 @@
 import { useState } from "react";
 
 export default function FolderExplore() {
-  const files = [
+  interface FileItem {
+    id: string;
+    name: string;
+    type: "file" | "folder";
+    children?: FileItem[];
+  }
+
+  const files: FileItem[] = [
     {
       id: "folder-1",
       name: "src",
